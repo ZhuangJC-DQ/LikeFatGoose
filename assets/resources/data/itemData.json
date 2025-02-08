@@ -1,0 +1,82 @@
+{
+    "0": { 
+        "name": "碎片发射器", 
+        "type": 1, 
+        "description": "发射碎片的发射器", 
+        "level": 1, 
+        "nextLevelID": 0, 
+        "emitItemIDs": [2, 3, 4, 0], 
+        "emitProbabilities": [60, 30, 10, 0], 
+        "icon": "Image/0/spriteFrame"
+    },
+    "1": { 
+        "name": "手柄发射器", 
+        "type": 1, 
+        "description": "发射手柄的发射器", 
+        "level": 1, 
+        "nextLevelID": 0, 
+        "emitItemIDs": [5, 6, 7, 0], 
+        "emitProbabilities": [65, 30, 5, 0], 
+        "icon": "Image/1/spriteFrame"
+    },
+    "2": { 
+        "name": "黑白碎片", 
+        "type": 0, 
+        "description": "黑白色的碎片", 
+        "level": 1, 
+        "nextLevelID": 3, 
+        "emitItemIDs": [0, 0, 0, 0], 
+        "emitProbabilities": [1, 1, 1, 1], 
+        "icon": "Image/2/spriteFrame"
+    },
+    "3": { 
+        "name": "单色碎片", 
+        "type": 0, 
+        "description": "单色的碎片", 
+        "level": 2, 
+        "nextLevelID": 4, 
+        "emitItemIDs": [0, 0, 0, 0], 
+        "emitProbabilities": [1, 1, 1, 1], 
+        "icon": "Image/3/spriteFrame"
+    },
+    "4": { 
+        "name": "彩色碎片", 
+        "type": 0, 
+        "description": "五颜六色的碎片", 
+        "level": 3, 
+        "nextLevelID": 0, 
+        "emitItemIDs": [0, 0, 0, 0], 
+        "emitProbabilities": [1, 1, 1, 1], 
+        "icon": "Image/4/spriteFrame"
+    },
+    "5": { 
+        "name": "黑白手柄", 
+        "type": 0, 
+        "description": "黑白色的手柄", 
+        "level": 1, 
+        "nextLevelID": 6, 
+        "emitItemIDs": [0, 0, 0, 0], 
+        "emitProbabilities": [1, 1, 1, 1], 
+        "icon": "Image/5/spriteFrame"
+    },
+    "6": { 
+        "name": "单色手柄", 
+        "type": 0, 
+        "description": "单色的手柄", 
+        "level": 2, 
+        "nextLevelID": 7, 
+        "emitItemIDs": [0, 0, 0, 0], 
+        "emitProbabilities": [1, 1, 1, 1], 
+        "icon": "Image/6/spriteFrame"
+    },
+    "7": { 
+        "name": "彩色手柄", 
+        "type": 0, 
+        "description": "彩色的手柄", 
+        "level": 3, 
+        "nextLevelID": 0, 
+        "emitItemIDs": [0, 0, 0, 0], 
+        "emitProbabilities": [1, 1, 1, 1], 
+        "icon": "Image/7/spriteFrame"
+    }
+}

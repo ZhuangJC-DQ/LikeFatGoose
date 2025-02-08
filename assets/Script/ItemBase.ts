@@ -1,7 +1,7 @@
 import { _decorator, Component, resources, Sprite, SpriteFrame, Vec3 } from 'cc';
 import { tween } from 'cc';
 import { GridCell } from './GridCell';
-import { ItemManager } from './ItemManager';
+import { ItemManager } from './ItemManager'; // 确保导入 ItemManager
 
 const { ccclass, property } = _decorator;
 
@@ -17,8 +17,8 @@ export class ItemBase extends Component {
     @property public itemLevel: number = 1;
     @property public itemNextLevelID: number = 0;
     @property public itemEmitItemIDs: number[] = [0, 0, 0, 0];
-    @property public itemEmitProbabilities: number[] = [1, 1, 1, 1];
-    @property public itemParentGrid: GridCell | null = null;
+    @property public itemEmitProbabilities: number[] = [1, 1, 1, 1]; // 权重
+    @property public itemParentGrid: GridCell | null = null; // 记录所在格子
     private isLaunchable: boolean = false;
 
     constructor() {
@@ -30,7 +30,7 @@ export class ItemBase extends Component {
         this.itemID = itemID;
         const itemData = await this.loadItemData(itemID);
         if (!itemData) {
-            console.error(`ItemBase: Cannot find item data for itemID ${itemID}`);
+            console.error(`ItemBase: 未找到 ID ${itemID} 的物品数据`);
             return;
         }
 
@@ -42,11 +42,12 @@ export class ItemBase extends Component {
         this.itemEmitItemIDs = itemData.emitItemIDs;
         this.itemEmitProbabilities = itemData.emitProbabilities;
 
+        // 加载物品图标
         resources.load(itemData.icon, SpriteFrame, (err, spriteFrame) => {
             if (!err) {
                 this.node.getComponent(Sprite).spriteFrame = spriteFrame;
             } else {
-                console.error("ItemBase: Load icon failed", err);
+                console.error("ItemBase: 图标加载失败", err);
             }
         });
     }
@@ -55,7 +56,7 @@ export class ItemBase extends Component {
         return new Promise((resolve) => {
             resources.load("data/itemData", (err, jsonAsset) => {
                 if (err) {
-                    console.error("ItemBase: Load itemData failed", err);
+                    console.error("ItemBase: 物品数据加载失败", err);
                     resolve(null);
                     return;
                 }
@@ -74,26 +75,29 @@ export class ItemBase extends Component {
         return this.isLaunchable;
     }
 
+    /** 🎯 发射物品或使用物品 */
     public launch() {
         if (!this.isLaunchable) return;
         
-        console.log(`ItemBase: Item ${this.itemID} launched`);
+        console.log(`ItemBase: 物品 ${this.itemID} 发射!`);
 
         if (this.itemType === 1) {
+            // 🎯 物品类型为发射器，随机选择一个物品进行发射
             const newItemID = this.getRandomEmitItem();
             if (newItemID !== null) {
-                console.log(`ItemBase: Launch item ${newItemID}`);
-                ItemManager.instance.launchItem(newItemID, this.itemParentGrid);
+                console.log(`ItemBase: 生成新物品 ID ${newItemID}`);
+                ItemManager.instance.launchItem(newItemID, this.itemParentGrid);  // 修改这里
             }
         } else {
-            console.log(`ItemBase: Item ${this.itemID} is not launchable`);
+            console.log(`ItemBase: 物品 ${this.itemID} 无法被发射`);
         }
     }
 
 
+    /** 🎲 根据权重随机选择一个要发射的物品 */
     private getRandomEmitItem(): number | null {
         if (this.itemEmitItemIDs.length === 0 || this.itemEmitProbabilities.length === 0) {
-            console.warn("ItemBase: Emit item list is empty");
+            console.warn("ItemBase: 发射器没有可发射的物品");
             return null;
         }
 

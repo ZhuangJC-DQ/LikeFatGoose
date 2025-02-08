@@ -12,9 +12,10 @@ export class Main extends Component {
     start() {
         console.log("Game Starting...");
         
+        // 初始化所有单例管理类
         GameManager.instance.init();
-        const gridContainer = find("Canvas/GridContainer");
-        const itemContainer = find("Canvas/ItemContainer");
+        const gridContainer = find("Canvas/GridContainer"); // 网格容器
+        const itemContainer = find("Canvas/ItemContainer"); // 物品容器
 
         if (gridContainer) {
             GridManager.instance.initGrid(gridContainer);
@@ -27,6 +28,7 @@ export class Main extends Component {
         } else {
             console.error("ItemContainer not found in scene.");
         }
+        // 添加测试代码，在 GridManager 中初始化两个物品
         ItemManager.instance.createItem(0);
         ItemManager.instance.createItem(1);
         // UIManager.instance.initUI();

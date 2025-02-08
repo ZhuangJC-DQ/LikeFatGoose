@@ -11,11 +11,11 @@ export class GridCell extends Component {
 
     public setItem(item: ItemBase) {
         if (this.item) {
-            console.warn(`GridCell (${this.row}, ${this.col}) was already occupied by item ${this.item.itemID}`);
+            console.warn(`GridCell (${this.row}, ${this.col}) 已经有物品`);
             return;
         }
         this.item = item;
-        console.log(`GridCell (${this.row}, ${this.col}) is now occupied by item ${this.item.itemID}`);
+        console.log(`GridCell (${this.row}, ${this.col}) 设置物品 ${item.itemID}`);
     }
     
     public getItem(): ItemBase {

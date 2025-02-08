@@ -7,7 +7,7 @@ const { ccclass, property } = _decorator;
 
 const GRID_ROWS = 9;
 const GRID_COLS = 7;
-const CELL_SIZE = 150;
+const CELL_SIZE = 150; // 格子大小（可以根据实际预制体大小调整）
 
 @ccclass('GridManager')
 export class GridManager extends Component {
@@ -57,11 +57,11 @@ export class GridManager extends Component {
         for (let row = 0; row < GRID_ROWS; row++) {
             for (let col = 0; col < GRID_COLS; col++) {
                 if (!this.gridCells[row][col].hasItem()) {
-                    return this.gridCells[row][col];
+                    return this.gridCells[row][col]; // 找到空位就返回
                 }
             }
         }
-        return null;
+        return null; // 没有空位返回 null
     }
     
     public placeItem(item: ItemBase): boolean {

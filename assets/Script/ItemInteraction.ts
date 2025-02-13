@@ -12,6 +12,7 @@ export class ItemInteraction extends Component {
     private startPos: Vec3 = new Vec3();
     private dragging: boolean = false;
     private launchable: boolean = false;
+    private firstMoving: boolean = false;
     private itemBase: ItemBase | null = null;
 
     onLoad() {
@@ -31,6 +32,7 @@ export class ItemInteraction extends Component {
     private onTouchStart(event: EventTouch) {
         this.startPos.set(this.itemBase.itemParentGrid.node.position);
         this.dragging = true;
+        this.firstMoving = false;
     
         // 提高 Z 轴，确保拖拽物品在最上层
         this.node.setSiblingIndex(this.node.parent!.children.length - 1);
@@ -50,16 +52,18 @@ export class ItemInteraction extends Component {
         const worldPos = new Vec3(touchPos.x, touchPos.y, 0);
     
         // **只有当触摸点在格子范围外时，才执行拖拽**
-        if (this.isInsideGridCell(this.itemBase.itemParentGrid, worldPos)) {
+        if (this.isInsideGridCell(this.itemBase.itemParentGrid, worldPos) && !this.firstMoving) {
             return; // 如果仍在当前格子内，直接返回，不执行拖拽
         }
-    
+
+        this.firstMoving = true;
+
         // **转换触摸点为局部坐标**
         const localPos = this.node.parent!.getComponent(UITransform)!.convertToNodeSpaceAR(worldPos);
     
         // **使用 Tween 进行平滑移动**
         tween(this.node)
-            .to(0.08, { position: localPos }, { easing: 'quadOut' }) // 0.08 秒的缓动
+            .to(0.01, { position: localPos }, { easing: 'quadOut' }) // 0.08 秒的缓动
             .start();
     
         this.launchable = false;

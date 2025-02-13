@@ -113,4 +113,16 @@ export class ItemBase extends Component {
         }
         return null;
     }
+
+    /** 💨 呼吸动画 */
+    private startBreathingAnimation() {
+        tween(this.node)
+            .repeatForever(
+                tween()
+                    .to(0.5, { scale: new Vec3(1.2, 1.2, 1) }) // 放大
+                    .to(0.5, { scale: new Vec3(1, 1, 1) })   // 缩回
+            )
+            .start();
+    }
+    
 }

@@ -29,8 +29,10 @@ export class Main extends Component {
             console.error("ItemContainer not found in scene.");
         }
         // 添加测试代码，在 GridManager 中初始化两个物品
-        ItemManager.instance.createItem(0);
         ItemManager.instance.createItem(1);
+        ItemManager.instance.createItem(1);
+        ItemManager.instance.createItem(2);
+        ItemManager.instance.createItem(3);
         // UIManager.instance.initUI();
         GameData.instance.loadData();
 

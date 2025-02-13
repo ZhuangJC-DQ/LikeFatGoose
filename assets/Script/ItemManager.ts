@@ -4,6 +4,7 @@ import { GridManager } from './GridManager';
 import { GridCell } from './GridCell';
 import { ItemBase } from './ItemBase';
 import { UIManager } from './UI/UIManager';
+import { StaminaManager } from './StaminaManager';
 
 const { ccclass, property } = _decorator;
 
@@ -137,7 +138,11 @@ export class ItemManager extends Component {
             console.error("ItemManager: itemPrefab 为空");
             return false;
         }
-
+        if(StaminaManager.instance.getCurrentStamina() < 1)
+        {
+            console.log("ItemManager: 体力不足");
+            return false;
+        }
         // 🔍 使用 BFS 查找最近的空格子
         const emptyCell = this.findNearestEmptyCell(startCell);
         if (!emptyCell) {
@@ -169,6 +174,8 @@ export class ItemManager extends Component {
 
         // 禁用触摸事件，避免刚发射的物品被重复点击
         newItemNode.pauseSystemEvents(true);
+
+        StaminaManager.instance.useStamina(1);
 
         await new Promise((resolve) => {
             tween(newItemNode)

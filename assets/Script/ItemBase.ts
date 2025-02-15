@@ -2,6 +2,9 @@ import { _decorator, Component, resources, Sprite, SpriteFrame, Vec3 } from 'cc'
 import { tween } from 'cc';
 import { GridCell } from './GridCell';
 import { ItemManager } from './ItemManager'; // 确保导入 ItemManager
+import { ItemUseStrategy } from './ItemUseStrategy';
+import { LaunchItemStrategy } from './UseStrategies/LaunchItemStrategy';
+import { ConsumableItemStrategy } from './UseStrategies/ConsumableItemStrategy';
 
 const { ccclass, property } = _decorator;
 
@@ -20,7 +23,8 @@ export class ItemBase extends Component {
     @property public itemEmitProbabilities: number[] = [1, 1, 1, 1]; // 权重
     @property public itemParentGrid: GridCell | null = null; // 记录所在格子
     private isLaunchable: boolean = false;
-
+    private useStrategy: ItemUseStrategy | null = null;
+    
     constructor() {
         super();
         this.uniqueID = uniqueIDCounter++;
@@ -50,6 +54,13 @@ export class ItemBase extends Component {
                 console.error("ItemBase: 图标加载失败", err);
             }
         });
+
+        // 根据物品类型设置使用策略
+        if (this.itemType === 1) {
+            this.useStrategy = new LaunchItemStrategy();
+        } else if (this.itemType === 2) {
+            this.useStrategy = new ConsumableItemStrategy();
+        }
     }
 
     private async loadItemData(itemID: number): Promise<any> {
@@ -79,23 +90,21 @@ export class ItemBase extends Component {
     public launch() {
         if (!this.isLaunchable) return;
         
-        console.log(`ItemBase: 物品 ${this.itemID} 发射!`);
-
-        if (this.itemType === 1) {
-            // 🎯 物品类型为发射器，随机选择一个物品进行发射
-            const newItemID = this.getRandomEmitItem();
-            if (newItemID !== null) {
-                console.log(`ItemBase: 生成新物品 ID ${newItemID}`);
-                ItemManager.instance.launchItem(newItemID, this.itemParentGrid);  // 修改这里
-            }
-        } else {
-            console.log(`ItemBase: 物品 ${this.itemID} 无法被发射`);
-        }
+        console.log(`ItemBase: 物品 ${this.itemID} 被触发!`);
+        this.use();
     }
 
+    public async use(): Promise<boolean> {
+        if (!this.useStrategy) {
+            console.error(`ItemBase: 物品 ${this.itemID} 没有设置使用策略`);
+            return false;
+        }           
+
+        return await this.useStrategy.use(this);
+    }
 
     /** 🎲 根据权重随机选择一个要发射的物品 */
-    private getRandomEmitItem(): number | null {
+    public getRandomEmitItem(): number | null {
         if (this.itemEmitItemIDs.length === 0 || this.itemEmitProbabilities.length === 0) {
             console.warn("ItemBase: 发射器没有可发射的物品");
             return null;

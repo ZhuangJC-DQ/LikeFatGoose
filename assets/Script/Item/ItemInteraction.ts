@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, Vec3, UITransform, EventTouch } from 'cc';
 import { tween } from 'cc';
-import { GridManager } from './GridManager';
-import { GridCell } from './GridCell';
+import { GridManager } from '../Grid/GridManager';
+import { GridCell } from '../Grid/GridCell';
 import { ItemBase } from './ItemBase';
 import { ItemManager } from './ItemManager';
 

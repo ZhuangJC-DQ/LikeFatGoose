@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, instantiate, Prefab, Vec3 } from 'cc';
 import { GridCell } from './GridCell';
-import { ItemBase } from './ItemBase';
-import { GameManager } from './GameManager';
+import { ItemBase } from '../Item/ItemBase';
+import { GameManager } from '../GameManager';
 
 const { ccclass, property } = _decorator;
 

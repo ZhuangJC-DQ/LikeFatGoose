@@ -1,8 +1,8 @@
 import { _decorator, Component, resources, Sprite, SpriteFrame, Vec3 } from 'cc';
 import { tween } from 'cc';
-import { GridCell } from './GridCell';
+import { GridCell } from '../Grid/GridCell';
 import { ItemManager } from './ItemManager'; // 确保导入 ItemManager
-import { ItemUseStrategy } from './ItemUseStrategy';
+import { ItemUseStrategy } from '../ItemUseStrategy';
 import { LaunchItemStrategy } from './UseStrategies/LaunchItemStrategy';
 import { ConsumableItemStrategy } from './UseStrategies/ConsumableItemStrategy';
 

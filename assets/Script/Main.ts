@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, find } from 'cc';
 import { GameManager } from './GameManager';
-import { GridManager } from './GridManager';
-import { ItemManager } from './ItemManager';
+import { GridManager } from './Grid/GridManager';
+import { ItemManager } from './Item/ItemManager';
 import { UIManager } from './UI/UIManager';
 import { GameData } from './GameData';
 

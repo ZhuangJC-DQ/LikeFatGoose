@@ -1,4 +1,4 @@
-import { ItemUseStrategy } from '../ItemUseStrategy';
+import { ItemUseStrategy } from '../../ItemUseStrategy';
 import { ItemBase } from '../ItemBase';
 import { ItemManager } from '../ItemManager';
 

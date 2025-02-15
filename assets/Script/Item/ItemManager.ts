@@ -1,10 +1,10 @@
 import { _decorator, Component, Node, Prefab, instantiate, find, Vec3 } from 'cc';
 import { tween } from 'cc';
-import { GridManager } from './GridManager';
-import { GridCell } from './GridCell';
+import { GridManager } from '../Grid/GridManager';
+import { GridCell } from '../Grid/GridCell';
 import { ItemBase } from './ItemBase';
-import { UIManager } from './UI/UIManager';
-import { StaminaManager } from './StaminaManager';
+import { UIManager } from '../UI/UIManager';
+import { StaminaManager } from '../StaminaManager';
 
 const { ccclass, property } = _decorator;
 

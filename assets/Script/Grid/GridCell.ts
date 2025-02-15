@@ -1,5 +1,5 @@
 import { _decorator, Component, Node, CCInteger} from 'cc';
-import { ItemBase } from './ItemBase';
+import { ItemBase } from '../Item/ItemBase';
 
 const { ccclass, property } = _decorator;
 

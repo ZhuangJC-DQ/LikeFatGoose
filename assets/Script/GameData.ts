@@ -6,6 +6,7 @@ export class GameData {
     private static _instance: GameData;
     public level: number = 1;
     public stamina: number = 100;
+    public maxStamina: number = 100; // 添加体力上限
     public gold: number = 0;
     public diamonds: number = 0;
     
@@ -20,5 +21,3 @@ export class GameData {
         console.log("GameData Loaded");
     }
 }
-
-

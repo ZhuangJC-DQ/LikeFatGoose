@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 import { ItemInformation } from './ItemInformation';
-import { ItemBase } from '../ItemBase';
+import { ItemBase } from '../Item/ItemBase';
 
 const { ccclass, property } = _decorator;
 

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, UITransform, EventTouch } from 'cc';
+import { _decorator, Component, Node, Vec3, UITransform, EventTouch, Vec2 } from 'cc';
 import { tween } from 'cc';
 import { GridManager } from '../Grid/GridManager';
 import { GridCell } from '../Grid/GridCell';
@@ -10,6 +10,8 @@ const { ccclass, property } = _decorator;
 @ccclass('ItemInteraction')
 export class ItemInteraction extends Component {
     private startPos: Vec3 = new Vec3();
+    private touchStartPos: Vec2 = new Vec2();
+    private touchEndPos: Vec2 = new Vec2();
     private dragging: boolean = false;
     private launchable: boolean = false;
     private firstMoving: boolean = false;
@@ -33,6 +35,7 @@ export class ItemInteraction extends Component {
         this.startPos.set(this.itemBase.itemParentGrid.node.position);
         this.dragging = true;
         this.firstMoving = false;
+        this.touchStartPos = event.getUILocation(); // 获取当前触摸点
     
         // 提高 Z 轴，确保拖拽物品在最上层
         this.node.setSiblingIndex(this.node.parent!.children.length - 1);
@@ -46,14 +49,15 @@ export class ItemInteraction extends Component {
     }
     
     private onTouchMove(event: EventTouch) {
-        if (!this.dragging || !this.itemBase.itemParentGrid) return;
+        if (!this.dragging || !this.itemBase.itemParentGrid || this.itemBase.getUsed()) return;
     
         const touchPos = event.getUILocation(); // 获取当前触摸点
+        this.touchEndPos = event.getUILocation(); // 获取当前触摸点
         const worldPos = new Vec3(touchPos.x, touchPos.y, 0);
-    
-        // **只有当触摸点在格子范围外时，才执行拖拽**
-        if (this.isInsideGridCell(this.itemBase.itemParentGrid, worldPos) && !this.firstMoving) {
-            return; // 如果仍在当前格子内，直接返回，不执行拖拽
+
+        // **只有当触摸点移动大于 10px 时，才执行拖拽**
+        if (this.touchEndPos.subtract(this.touchStartPos).length() < 40 && !this.firstMoving) {
+            return;
         }
 
         this.firstMoving = true;
@@ -70,7 +74,7 @@ export class ItemInteraction extends Component {
     }
 
     private onTouchEnd(event: EventTouch) {
-        if (!this.dragging || !this.itemBase) return;
+        if (!this.dragging || !this.itemBase || this.itemBase.getUsed()) return;
         this.dragging = false;
     
         // **可选**：恢复原始层级，避免影响后续操作
@@ -83,6 +87,9 @@ export class ItemInteraction extends Component {
             if(this.launchable && this.itemBase.getLaunchable()) {
                 this.itemBase.launch();
                 this.launchable = false;
+                if(this.itemBase.getUsed()) {
+                    return;
+                }
             }
             
             // **回到原位置**       

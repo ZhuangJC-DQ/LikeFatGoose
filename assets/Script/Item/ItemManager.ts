@@ -200,6 +200,15 @@ export class ItemManager extends Component {
 
     }
 
+    // 使用和移除物品
+    public useItem(item: ItemBase) {
+        if (item.itemParentGrid) {
+            item.itemParentGrid.removeItem();
+        }
+
+        item.startDisappearAnimation();
+    }
+
     // 设置当前可发射状态的物品
     public setLaunchableItem(item: ItemBase | null) {
         if (this.currentLaunchableItem) {

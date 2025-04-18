@@ -2,7 +2,7 @@ import { _decorator, Component, resources, Sprite, SpriteFrame, Vec3 } from 'cc'
 import { tween } from 'cc';
 import { GridCell } from '../Grid/GridCell';
 import { ItemManager } from './ItemManager'; // 确保导入 ItemManager
-import { ItemUseStrategy } from '../ItemUseStrategy';
+import { ItemUseStrategy } from './UseStrategies/ItemUseStrategy';
 import { LaunchItemStrategy } from './UseStrategies/LaunchItemStrategy';
 import { ConsumableItemStrategy } from './UseStrategies/ConsumableItemStrategy';
 
@@ -23,6 +23,7 @@ export class ItemBase extends Component {
     @property public itemEmitProbabilities: number[] = [1, 1, 1, 1]; // 权重
     @property public itemParentGrid: GridCell | null = null; // 记录所在格子
     private isLaunchable: boolean = false;
+    private isUsed: boolean = false;
     private useStrategy: ItemUseStrategy | null = null;
     
     constructor() {
@@ -86,6 +87,14 @@ export class ItemBase extends Component {
         return this.isLaunchable;
     }
 
+    public setUsed(used: boolean) {
+        this.isUsed = used;
+    }
+
+    public getUsed(): boolean {
+        return this.isUsed;
+    }
+
     /** 🎯 发射物品或使用物品 */
     public launch() {
         if (!this.isLaunchable) return;
@@ -96,7 +105,7 @@ export class ItemBase extends Component {
 
     public async use(): Promise<boolean> {
         if (!this.useStrategy) {
-            console.error(`ItemBase: 物品 ${this.itemID} 没有设置使用策略`);
+            // console.error(`ItemBase: 物品 ${this.itemID} 没有设置使用策略`);
             return false;
         }           
 
@@ -131,6 +140,19 @@ export class ItemBase extends Component {
                     .to(0.5, { scale: new Vec3(1.2, 1.2, 1) }) // 放大
                     .to(0.5, { scale: new Vec3(1, 1, 1) })   // 缩回
             )
+            .start();
+    }
+
+    /** 消失动画 **/
+    public startDisappearAnimation() {
+        
+        this.isUsed = true;
+
+        tween(this.node)
+            .to(0.5, { scale: new Vec3(0, 0, 0) })
+            .call(() => {
+                this.node.destroy();
+            })
             .start();
     }
     

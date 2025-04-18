@@ -1,6 +1,7 @@
-import { ItemUseStrategy } from '../../ItemUseStrategy';
+import { ItemUseStrategy } from './ItemUseStrategy';
 import { ItemBase } from '../ItemBase';
 import { ItemManager } from '../ItemManager';
+import { CurrencyManager } from '../../CurrencyManager';
 
 export class ConsumableItemStrategy implements ItemUseStrategy {
     async use(item: ItemBase): Promise<boolean> {
@@ -13,7 +14,8 @@ export class ConsumableItemStrategy implements ItemUseStrategy {
         console.log(`ConsumableItemStrategy: 使用物品 ${item.itemID}`);
         
         // 示例：移除物品
-        ItemManager.instance.removeItem(item);
+        CurrencyManager.instance.addCoin(1);
+        ItemManager.instance.useItem(item);
 
         return true;
     }

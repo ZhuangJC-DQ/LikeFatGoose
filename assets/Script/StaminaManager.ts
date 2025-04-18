@@ -20,10 +20,6 @@ export class StaminaManager extends Component {
     @property({ type: Label }) public staminaText: Label | null = null;
     @property({ type: Label }) public staminaTimerText: Label | null = null;
 
-    constructor() {
-        super();
-    }
-
     private getRemainingTime(): number {
         if (GameData.instance.stamina >= GameData.instance.maxStamina) return 0;
 
